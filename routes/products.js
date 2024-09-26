@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
     res.json({ message: 'Producto creado con éxito' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Error al crear un productos' });
+    res.status(500).json({ message: 'Error al crear un producto' });
   }
 });
 
