@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const model =  require('../models/users');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 
 router.get('/', async (req, res) => {
   try {
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
     documento: req.body.documento,
     telefono: req.body.telefono,
     email: req.body.email,
-    contrasena: await bcrypt.hash(req.body.contrasena, 10),
+    contrasena: await bcryptjs.hash(req.body.contrasena, 10),
   };
 
   try {
@@ -101,7 +101,7 @@ router.post('/login', async (req, res) => {
         });
       }
 
-      const isPasswordValid = await bcrypt.compare(contrasena, user.contrasena);
+      const isPasswordValid = await bcryptjs.compare(contrasena, user.contrasena);
 
       if (!isPasswordValid) {
         return res.status(401).json({
