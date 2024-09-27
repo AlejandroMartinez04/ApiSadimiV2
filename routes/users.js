@@ -17,14 +17,15 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const id = req.params.id;
   try {
-    const user =  await model.findOne({email: id})
+    const user = await model.findOne({documento: id}).populate('direcciones').populate('direccionFavorita');
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
+
     res.json(user);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Error al leer usuario' });
+    res.status(500).json({ message: 'Error al obtener usuario' });
   }
 });
 
@@ -105,11 +106,10 @@ router.post('/login', async (req, res) => {
 
       if (!isPasswordValid) {
         return res.status(401).json({
-          status: 'Error',
+          status: 'error',
           message: 'Correo o contraseña incorrectos. Vuelve a intentarlo'
         });
       }
-
       res.status(200).json({
         status: 'Correcto',
         message: 'Haz iniciado sesion'
@@ -120,6 +120,30 @@ router.post('/login', async (req, res) => {
         message: 'Error interno del servidor'
       });
     }
+});
+
+router.post('/direccion/:id', async (req, res) => {
+  const id  = req.params.id;
+  const direccion = req.body.direcciones;
+
+  try {
+    const user = await model.findOne({documento: id});
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    user.direcciones.push(direccion);
+    if (direccion.favorite) {
+      user.direccionFavorita = direccion.documento;
+    }
+    await user.save();
+
+    res.json({ message: 'Usuario actualizado con éxito' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al actualizar usuario' });
+  }
+
 });
 
 module.exports = router;
