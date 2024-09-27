@@ -22,6 +22,8 @@ router.post('/', async (req, res) => {
     categoria: req.body.categoria,
     descripcion: req.body.descripcion,
     imagen: req.body.imagen,
+    precio_oferta: req.body.precio_oferta,
+    colores: req.body.colores
   };
 
   try {
@@ -64,6 +66,8 @@ router.put('/:id', async (req, res) => {
       categoria: req.body.categoria,
       descripcion: req.body.descripcion,
       imagen: req.body.imagen,
+      precio_oferta: req.body.precio_oferta,
+      colores: req.body.colores
     };
 
     await model.updateOne({ nombre: id }, { $set: updates });
