@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 
+const coloresSchema = new mongoose.Schema({
+  direccion: { type: String, required: true }
+});
+
 const productSchema = new mongoose.Schema({
     nombre: { type: String, required: true, unique: true },
     cantidad: { type: Number, required: true },
@@ -17,7 +21,7 @@ const productSchema = new mongoose.Schema({
     descripcion: { type: String},
     imagen: { type: String, required: true },
     precio_oferta: { type: Number },
-    colores: { type: String },
+    colores: [coloresSchema],
     marca: { type: String }
   });
 
