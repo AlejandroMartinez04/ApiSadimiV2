@@ -1,8 +1,8 @@
 // users.js
 const express = require('express');
 const router = express.Router();
-const initDB = require('../db');
 const model =  require('../models/users');
+const bcrypt = require('bcrypt');
 
 router.get('/', async (req, res) => {
   try {
@@ -28,16 +28,14 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
 router.post('/', async (req, res) => {
-
   const user = {
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     documento: req.body.documento,
     telefono: req.body.telefono,
     email: req.body.email,
-    contrasena: req.body.contrasena,
+    contrasena: await bcrypt.hash(req.body.contrasena, 10),
   };
 
   try {
@@ -48,8 +46,6 @@ router.post('/', async (req, res) => {
     res.status(500).json({ message: 'Error al crear usuario' });
   }
 });
-
-
 
 router.put('/:id', async (req, res) => {
 
@@ -89,6 +85,41 @@ router.delete('/:id', async (req, res) => {
     console.error(err);
     res.status(500).json({ message: 'Error al eliminar usuario' });
   }
+});
+
+router.post('/login', async (req, res) => {
+    const { email, contrasena } = req.body;
+
+    try {
+      const user = await model.findOne({ email }).select('+contrasena');
+
+      if (!user) {
+        return res.status(401).json({
+          status: 'Error',
+          message: 'Correo o contraseña incorrectos. Vuelve a intentarlo',
+
+        });
+      }
+
+      const isPasswordValid = await bcrypt.compare(contrasena, user.contrasena);
+
+      if (!isPasswordValid) {
+        return res.status(401).json({
+          status: 'Error',
+          message: 'Correo o contraseña incorrectos. Vuelve a intentarlo'
+        });
+      }
+
+      res.status(200).json({
+        status: 'Correcto',
+        message: 'Haz iniciado sesion'
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: 'error',
+        message: 'Error interno del servidor'
+      });
+    }
 });
 
 module.exports = router;
