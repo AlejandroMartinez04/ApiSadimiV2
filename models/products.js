@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const coloresSchema = new mongoose.Schema({
-  direccion: { type: String, required: true }
+  color: { type: String }
 });
 
 const productSchema = new mongoose.Schema({
