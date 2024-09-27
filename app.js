@@ -4,22 +4,14 @@ const usersRouter = require('./routes/users');
 const productsRouter = require('./routes/products');
 const initDB = require('./db');
 const port = 3000
-const cors = require('cors');
-
-let corsOptions = {
-  origin: ['http://localhost:4321'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  headers: ['Content-Type', 'Authorization']
-};
 
 //Middlewares
 app.use(express.json());
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
-app.use(cors(corsOptions));
 
 app.listen(port, () => {
-  console.log('Server listening on port', port);
+  console.log('Server funcionando en puerto', port);
 })
 
 initDB()

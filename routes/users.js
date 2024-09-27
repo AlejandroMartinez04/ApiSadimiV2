@@ -21,7 +21,7 @@ router.get('/', cors(corsOptions), async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', cors(corsOptions), async (req, res) => {
   const id = req.params.id;
   try {
     const user = await model.findOne({email: id}).populate('direcciones').populate('direccionFavorita');
@@ -36,7 +36,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', cors(corsOptions), async (req, res) => {
   const user = {
     nombre: req.body.nombre,
     apellido: req.body.apellido,
@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', cors(corsOptions), async (req, res) => {
 
   const id = req.params.id;
 
@@ -82,7 +82,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', cors(corsOptions), async (req, res) => {
 
   const id = req.params.id;
 
@@ -95,7 +95,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', cors(corsOptions), async (req, res) => {
     const { email, contrasena } = req.body;
 
     try {
@@ -129,7 +129,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/direccion/:id', async (req, res) => {
+router.post('/direccion/:id', cors(corsOptions), async (req, res) => {
   const id  = req.params.id;
   const direccion = req.body.direcciones;
 
