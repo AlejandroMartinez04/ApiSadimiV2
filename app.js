@@ -6,17 +6,17 @@ const initDB = require('./db');
 const port = 3000
 const cors = require('cors');
 
-//Middlewares
-app.use(express.json());
-app.use('/users', usersRouter);
-app.use('/products', productsRouter);
-app.use(cors(corsOptions));
-
 let corsOptions = {
   origin: ['http://localhost:4321'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   headers: ['Content-Type', 'Authorization']
 };
+
+//Middlewares
+app.use(express.json());
+app.use('/users', usersRouter);
+app.use('/products', productsRouter);
+app.use(cors(corsOptions));
 
 app.listen(port, () => {
   console.log('Server listening on port', port);

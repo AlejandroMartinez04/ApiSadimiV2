@@ -5,6 +5,12 @@ const model =  require('../models/users');
 const bcryptjs = require('bcryptjs');
 const cors = require('cors');
 
+let corsOptions = {
+  origin: ['http://localhost:4321'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  headers: ['Content-Type', 'Authorization']
+};
+
 router.get('/', cors(corsOptions), async (req, res) => {
   try {
     const users = await model.find();
