@@ -17,7 +17,8 @@ const productSchema = new mongoose.Schema({
     descripcion: { type: String},
     imagen: { type: String, required: true },
     precio_oferta: { type: Number },
-    colores: { type: String }
+    colores: { type: String },
+    marca: { type: String }
   });
 
 module.exports = mongoose.model('products', productSchema);
