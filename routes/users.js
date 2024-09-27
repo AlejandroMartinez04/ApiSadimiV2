@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const model =  require('../models/users');
 const bcryptjs = require('bcryptjs');
+const cors = require('cors');
 
 router.get('/', cors(corsOptions), async (req, res) => {
   try {
