@@ -3,15 +3,8 @@ const express = require('express');
 const router = express.Router();
 const model =  require('../models/users');
 const bcryptjs = require('bcryptjs');
-const cors = require('cors');
 
-const corsOptions = {
-  origin: ['*'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  headers: ['Content-Type', 'Authorization']
-};
-
-router.get('/', cors(corsOptions), async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const users = await model.find();
     res.json(users);
@@ -21,7 +14,7 @@ router.get('/', cors(corsOptions), async (req, res) => {
   }
 });
 
-router.get('/:id', cors(corsOptions), async (req, res) => {
+router.get('/:id', async (req, res) => {
   const id = req.params.id;
   try {
     const user = await model.findOne({email: id}).populate('direcciones').populate('direccionFavorita');
@@ -36,7 +29,7 @@ router.get('/:id', cors(corsOptions), async (req, res) => {
   }
 });
 
-router.post('/', cors(corsOptions), async (req, res) => {
+router.post('/', async (req, res) => {
   const user = {
     nombre: req.body.nombre,
     apellido: req.body.apellido,
@@ -55,7 +48,7 @@ router.post('/', cors(corsOptions), async (req, res) => {
   }
 });
 
-router.put('/:id', cors(corsOptions), async (req, res) => {
+router.put('/:id', async (req, res) => {
 
   const id = req.params.id;
 
@@ -82,7 +75,7 @@ router.put('/:id', cors(corsOptions), async (req, res) => {
   }
 });
 
-router.delete('/:id', cors(corsOptions), async (req, res) => {
+router.delete('/:id', async (req, res) => {
 
   const id = req.params.id;
 
@@ -95,7 +88,7 @@ router.delete('/:id', cors(corsOptions), async (req, res) => {
   }
 });
 
-router.post('/login', cors(corsOptions), async (req, res) => {
+router.post('/login', async (req, res) => {
     const { email, contrasena } = req.body;
 
     try {
@@ -129,7 +122,7 @@ router.post('/login', cors(corsOptions), async (req, res) => {
     }
 });
 
-router.post('/direccion/:id', cors(corsOptions), async (req, res) => {
+router.post('/direccion/:id', async (req, res) => {
   const id  = req.params.id;
   const direccion = req.body.direcciones;
 
