@@ -24,7 +24,7 @@ router.get('/', cors(corsOptions), async (req, res) => {
 router.get('/:id', async (req, res) => {
   const id = req.params.id;
   try {
-    const user = await model.findOne({documento: id}).populate('direcciones').populate('direccionFavorita');
+    const user = await model.findOne({email: id}).populate('direcciones').populate('direccionFavorita');
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
