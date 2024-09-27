@@ -10,7 +10,13 @@ const cors = require('cors');
 app.use(express.json());
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
-app.use(cors());
+app.use(cors(corsOptions));
+
+let corsOptions = {
+  origin: ['http://localhost:4321'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  headers: ['Content-Type', 'Authorization']
+};
 
 app.listen(port, () => {
   console.log('Server listening on port', port);

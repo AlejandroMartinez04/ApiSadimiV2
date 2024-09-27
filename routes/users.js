@@ -4,7 +4,7 @@ const router = express.Router();
 const model =  require('../models/users');
 const bcryptjs = require('bcryptjs');
 
-router.get('/', async (req, res) => {
+router.get('/', cors(corsOptions), async (req, res) => {
   try {
     const users = await model.find();
     res.json(users);
