@@ -4,8 +4,17 @@ const usersRouter = require('./routes/users');
 const productsRouter = require('./routes/products');
 const initDB = require('./db');
 const port = 3000
+const cors = require('cors');
+
+
+const corsOptions = {
+  origin: ['*'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  headers: ['Content-Type', 'Authorization']
+};
 
 //Middlewares
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);

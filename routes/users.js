@@ -5,8 +5,8 @@ const model =  require('../models/users');
 const bcryptjs = require('bcryptjs');
 const cors = require('cors');
 
-let corsOptions = {
-  origin: ['http://localhost:4321'],
+const corsOptions = {
+  origin: ['*'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   headers: ['Content-Type', 'Authorization']
 };
