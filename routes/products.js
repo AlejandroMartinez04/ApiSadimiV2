@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
 
   const product = {
+    id: req.body.id,
     nombre: req.body.nombre,
     cantidad: req.body.cantidad,
     valor: req.body.valor,
@@ -39,7 +40,7 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const id = req.params.id;
   try {
-    const product =  await model.findOne({nombre: id})
+    const product =  await model.findOne({id: id})
     if (!product) {
       return res.status(404).json({ message: 'producto no encontrado' });
     }
@@ -55,7 +56,7 @@ router.put('/:id', async (req, res) => {
   const id = req.params.id;
 
   try {
-    const product = await model.findOne({ nombre: id });
+    const product = await model.findOne({ id: id });
     if (!product) {
       return res.status(404).json({ message: 'Producto no encontrado' });
     }
@@ -72,7 +73,7 @@ router.put('/:id', async (req, res) => {
       marca: req.body.marca
     };
 
-    await model.updateOne({ nombre: id }, { $set: updates });
+    await model.updateOne({ id: id }, { $set: updates });
     res.json({ message: 'Producto actualizado con éxito' });
   } catch (err) {
     console.error(err);
