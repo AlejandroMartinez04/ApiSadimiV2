@@ -86,7 +86,7 @@ router.delete('/:id', async (req, res) => {
   const id = req.params.id;
 
   try {
-    await model.deleteOne({ nombre: id });
+    await model.deleteOne({ id: id });
     res.json({ message: 'Producto eliminado con éxito' });
   } catch (err) {
     console.error(err);
