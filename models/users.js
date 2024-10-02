@@ -7,7 +7,14 @@ const direccionsSchema = new mongoose.Schema({
   favorite: { type: Boolean, default: false }
 });
 
-const userSchema = new mongoose.Schema({
+const paymentSchema = new mongoose.Schema({
+  numberCard: { type: Number, required: true, unique: true },
+  dateExp: { type: String, required: true},
+  cvv: { type: Number, required: true},
+  favorite: { type: Boolean, default: false }
+});
+
+  const userSchema = new mongoose.Schema({
     nombre: { type: String, required: true },
     apellido: { type: String, required: true },
     documento: {
@@ -25,7 +32,9 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true , unique: true},
     contrasena: { type: String, required: true },
     direcciones: [direccionsSchema],
-    direccionFavorita: { type: mongoose.Schema.Types.ObjectId, ref: 'Address' }
+    direccionFavorita: { type: mongoose.Schema.Types.ObjectId, ref: 'Address' },
+    metodoPago: [paymentSchema],
+    pagoFavorito: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' }
   });
 
 module.exports = mongoose.model('users', userSchema);

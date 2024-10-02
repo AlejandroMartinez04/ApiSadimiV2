@@ -138,7 +138,31 @@ router.post('/direccion/:id', async (req, res) => {
     }
     await user.save();
 
-    res.json({ message: 'Usuario actualizado con éxito' });
+    res.json({ message: 'Direccion actualizada con éxito' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al actualizar usuario' });
+  }
+
+});
+
+router.post('/metodopago/:id', async (req, res) => {
+  const id  = req.params.id;
+  const datosPago = req.body.metodoPago;
+
+  try {
+    const user = await model.findOne({documento: id});
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    user.metodoPago.push(datosPago);
+    if (datosPago.favorite) {
+      user.pagoFavorito = datosPago.documento;
+    }
+    await user.save();
+
+    res.json({ message: 'Metodo de pago actualizado con éxito' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error al actualizar usuario' });
