@@ -95,9 +95,9 @@ router.post('/login', async (req, res) => {
       const user = await model.findOne({ email }).select('+contrasena');
 
       if (!user) {
-        return res.status(401).json({
+        return res.status(404).json({
           status: 'Error',
-          message: 'Correo o contraseña incorrectos. Vuelve a intentarlo',
+          message: 'Correo no registrado.',
 
         });
       }
@@ -107,7 +107,7 @@ router.post('/login', async (req, res) => {
       if (!isPasswordValid) {
         return res.status(401).json({
           status: 'error',
-          message: 'Correo o contraseña incorrectos. Vuelve a intentarlo'
+          message: 'Correo o contraseña incorrectos.'
         });
       }
       res.status(200).json({
@@ -122,7 +122,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/direccion/:id', async (req, res) => {
+router.post('/address/:id', async (req, res) => {
   const id  = req.params.id;
   const direccion = req.body.direcciones;
 
@@ -146,7 +146,7 @@ router.post('/direccion/:id', async (req, res) => {
 
 });
 
-router.post('/metodopago/:id', async (req, res) => {
+router.post('/payment/:id', async (req, res) => {
   const id  = req.params.id;
   const datosPago = req.body.metodoPago;
 
@@ -166,6 +166,27 @@ router.post('/metodopago/:id', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error al actualizar usuario' });
+  }
+
+});
+
+
+router.post('/sell/:id', async (req, res) => {
+  const id  = req.params.id;
+  const venta = req.body.venta;
+
+  try {
+    const user = await model.findOne({documento: id});
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    user.ventas.push(venta);
+    await user.save();
+
+    res.json({ message: 'Venta realizada con éxito' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al realizar la venta' });
   }
 
 });

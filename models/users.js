@@ -14,6 +14,13 @@ const paymentSchema = new mongoose.Schema({
   favorite: { type: Boolean, default: false }
 });
 
+const sellSchema = new mongoose.Schema({
+  date: { type: Date, required: true },
+  product: [],
+  payment: { type: String, required: true},
+  total: { type: Number, required: true }  
+});
+
   const userSchema = new mongoose.Schema({
     nombre: { type: String, required: true },
     apellido: { type: String, required: true },
@@ -34,7 +41,8 @@ const paymentSchema = new mongoose.Schema({
     direcciones: [direccionsSchema],
     direccionFavorita: { type: mongoose.Schema.Types.ObjectId, ref: 'Address' },
     metodoPago: [paymentSchema],
-    pagoFavorito: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' }
+    pagoFavorito: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' },
+    ventas: [sellSchema]
   });
 
 module.exports = mongoose.model('users', userSchema);
