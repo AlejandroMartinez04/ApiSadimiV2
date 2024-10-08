@@ -106,7 +106,7 @@ router.post('/login', async (req, res) => {
 
       if (!isPasswordValid) {
         return res.status(401).json({
-          status: 'error',
+          status: 'Error',
           message: 'Correo o contraseña incorrectos.'
         });
       }
@@ -116,7 +116,7 @@ router.post('/login', async (req, res) => {
       });
     } catch (err) {
       res.status(500).json({
-        status: 'error',
+        status: 'Error',
         message: 'Error interno del servidor'
       });
     }
