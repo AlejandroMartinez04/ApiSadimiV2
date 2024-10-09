@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
       res.status(200).json({
           status: 'Correcto',
           message: 'Haz iniciado sesión',
-          data : user,
+          user : user,
       });
 
   } catch (err) {
