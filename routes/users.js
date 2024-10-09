@@ -1,4 +1,3 @@
-// users.js
 const express = require('express');
 const router = express.Router();
 const model =  require('../models/users');
@@ -14,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/data/:id', async (req, res) => {
   const id = req.params.id;
   try {
     const user = await model.findOne({email: id}).populate('direcciones').populate('direccionFavorita');
@@ -88,39 +87,50 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
-    const { email, contrasena } = req.body;
+router.get('/login', async (req, res) => {
+  const {email,contrasena} = req.body;
 
-    try {
-      const user = await model.findOne({ email }).select('+contrasena');
+  if (!email || !contrasena) {
+      return res.status(400).json({
+          status: 'Error',
+          message: 'Correo y contraseña son obligatorios.',
+      });
+  }
+
+  try {
+      const user = await model.findOne({ email }).populate('direcciones').populate('direccionFavorita');
 
       if (!user) {
-        return res.status(404).json({
-          status: 'Error',
-          message: 'Correo no registrado.',
-
-        });
+          return res.status(404).json({
+              status: 'Error',
+              message: 'Correo no registrado.',
+          });
       }
 
       const isPasswordValid = await bcryptjs.compare(contrasena, user.contrasena);
 
       if (!isPasswordValid) {
-        return res.status(401).json({
-          status: 'Error',
-          message: 'Correo o contraseña incorrectos.'
-        });
+          return res.status(401).json({
+              status: 'Error',
+              message: 'Correo o contraseña incorrectos.',
+          });
       }
+
       res.status(200).json({
-        status: 'Correcto',
-        message: 'Haz iniciado sesion'
+          status: 'Correcto',
+          message: 'Haz iniciado sesión',
+          data : user,
       });
-    } catch (err) {
+
+  } catch (err) {
+      console.error(err);
       res.status(500).json({
-        status: 'Error',
-        message: 'Error interno del servidor'
+          status: 'Error',
+          message: 'Error interno del servidor',
       });
-    }
+  }
 });
+
 
 router.post('/address/:id', async (req, res) => {
   const id  = req.params.id;
