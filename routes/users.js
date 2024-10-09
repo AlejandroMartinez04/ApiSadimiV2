@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   const {email,contrasena} = req.body;
 
   if (!email || !contrasena) {
