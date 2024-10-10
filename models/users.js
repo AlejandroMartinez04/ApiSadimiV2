@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
 const direccionsSchema = new mongoose.Schema({
-  direccion: { type: String, required: true },
-  ciudad: { type: String, required: true },
   pais: { type: String, required: true },
-  favorite: { type: Boolean, default: false }
+  departamento: { type: String, required: true },
+  ciudad: { type: String, required: true },
+  direccion: { type: String, required: true }
 });
 
 const paymentSchema = new mongoose.Schema({
-  numberCard: { type: Number, required: true, unique: true },
+  numberCard: { type: Number, required: true},
   dateExp: { type: String, required: true},
   cvv: { type: Number, required: true},
   favorite: { type: Boolean, default: false }

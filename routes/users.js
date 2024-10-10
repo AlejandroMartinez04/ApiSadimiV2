@@ -79,12 +79,20 @@ router.post('/', async (req, res) => {
     documento: req.body.documento,
     telefono: req.body.telefono,
     email: req.body.email,
-    contrasena: await bcryptjs.hash(req.body.contrasena, 10),
+    contrasena: await bcryptjs.hash(req.body.contrasena, 10)
   };
+  const direccion = req.body.direcciones;
 
   try {
     const result = await model.create(user);
-    res.json({ message: 'Usuario creado con éxito' });
+    result.direcciones.push(direccion);
+    result.save();
+    res.status(200).json({
+      status: 'Correcto',
+      message: 'Usuario creado con éxito',
+      user: result 
+    });
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error al crear usuario' });
