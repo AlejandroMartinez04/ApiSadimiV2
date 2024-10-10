@@ -73,15 +73,18 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const user = {
-    nombre: req.body.nombre,
-    apellido: req.body.apellido,
-    documento: req.body.documento,
-    telefono: req.body.telefono,
-    email: req.body.email,
-    contrasena: await bcryptjs.hash(req.body.contrasena, 10)
-  };
-  const direccion = req.body.direcciones;
+  // const user = {
+  //   nombre: req.body.nombre,
+  //   apellido: req.body.apellido,
+  //   documento: req.body.documento,
+  //   telefono: req.body.telefono,
+  //   email: req.body.email,
+  //   contrasena: await bcryptjs.hash(req.body.contrasena, 10)
+  // };
+  // const direccion = req.body.direcciones;
+
+  const user = req.body
+  const direccion = user.direcciones;
 
   try {
     const result = await model.create(user);
