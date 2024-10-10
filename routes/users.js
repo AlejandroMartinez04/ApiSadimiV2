@@ -83,7 +83,7 @@ router.post('/', async (req, res) => {
   // };
   // const direccion = req.body.direcciones;
 
-  const user = req.body
+  const {user} = req.body
   const direccion = user.direcciones;
 
   try {
