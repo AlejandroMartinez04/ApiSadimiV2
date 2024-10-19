@@ -74,13 +74,10 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const { user } = req.body;
-  const direccion = req.body.user.direcciones;
 
   try {
     user.contrasena = await bcryptjs.hash(user.contrasena, 10);
-
     const result = await model.create(user);
-    // result.direcciones.push(direccion);
     await result.save();
 
     res.status(200).json({
