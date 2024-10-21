@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const direccionsSchema = new mongoose.Schema({
-  pais: { type: String, required: true },
   departamento: { type: String, required: true },
   ciudad: { type: String, required: true },
   direccion: { type: String, required: true }
