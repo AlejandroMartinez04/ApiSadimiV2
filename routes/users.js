@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const model = require('../models/users');
 const bcryptjs = require('bcryptjs');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
+
+let pw = process.env.pw;
 
 // Middleware de validación
 const validateUser = (req, res, next) => {
@@ -17,6 +21,14 @@ const handleError = (res, err, message) => {
   console.error(err);
   res.status(500).json({ message });
 };
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'diegom.juju@gmail.com',
+    pass: pw
+  },
+});
 
 router.get('/', async (req, res) => {
   try {
@@ -110,6 +122,43 @@ const updateUserField = async (req, res, field) => {
     handleError(res, err, `Error al actualizar ${field}`);
   }
 };
+
+router.post('/reset', async (req, res) => {
+  const { documento, email } = req.body;
+
+  try {
+    // Buscar el usuario por documento y correo
+    const user = await model.findOne({ documento, email });
+
+    if (!user) {
+      return res.status(400).json({ message: 'El documento no pertenece al correo o el correo no existe.', status: 'Error' });
+    }
+
+    // Generar contraseña aleatoria
+    const nuevaContraseña = Math.random().toString(36).slice(-8);
+    const contrasenaEncriptada = await bcryptjs.hash(nuevaContraseña, 10);
+
+    // Actualizar la contraseña en la base de datos
+    user.contrasena = contrasenaEncriptada;
+    await user.save();
+
+    // Enviar correo electrónico
+    await transporter.sendMail({
+      from: 'diegom.juju@gmail.com',
+      to: email,
+      subject: 'Recuperación de contraseña',
+      text: `Tu nueva contraseña temporal es: ${nuevaContraseña}
+       Debes ingresar con tu contraseña temporal e ir al apartado mi cuenta y cambiarla`,
+    });
+
+    return res.status(200).json({ message: `Se envió un correo electrónico de recuperación al correo: ${email}`, status: 'Correcto' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Error en el servidor.', status: 'Error' });
+  }
+});
+
+
 
 router.post('/address/:id', (req, res) => updateUserField(req, res, 'direcciones'));
 router.post('/payment/:id', (req, res) => updateUserField(req, res, 'metodoPago'));
