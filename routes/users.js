@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
     const result = await model.create(user);
     res.status(201).json({ message: 'Usuario creado con éxito', user: result });
   } catch (err) {
-    handleError(res, err, 'Error al crear usuario');
+    handleError(res, err, 'Error al crear usuario, documento o correo existente');
   }
 });
 
