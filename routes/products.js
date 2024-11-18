@@ -46,7 +46,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', validateProduct, async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const product = await model.findOne({ id: req.params.id });
     if (!product) {
