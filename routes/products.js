@@ -3,8 +3,8 @@ const router = express.Router();
 const model = require('../models/products');
 
 const validateProduct = (req, res, next) => {
-  const { id, nombre, cantidad, valor, categoria, descripcion, imagen, precio_oferta, colores, marca } = req.body;
-  if (!id || !nombre || !cantidad || !valor || !categoria || !descripcion || !imagen || !precio_oferta || !colores || !marca) {
+  const { nombre, stock, valor, categoria, descripcion, imagen, precio_oferta, marca } = req.body;
+  if (!nombre || !stock || !valor || !categoria || !descripcion || !imagen || !precio_oferta || !marca) {
     return res.status(400).json({ message: 'Todos los campos son obligatorios' });
   }
   next();
