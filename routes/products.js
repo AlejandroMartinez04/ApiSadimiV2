@@ -98,7 +98,7 @@ router.put('/:id', async (req, res) => {
       req.body.descuento = nuevoDescuento;
       req.body.valor = formatearDinero(nuevoPrecio);
 
-    } else {
+    } else if (req.body.valor && req.body.precio_oferta == false) {
       const nuevoPrecioOferta = req.body.precio_oferta;
       const valor = parseFloat(product.valor.replace(/\./g, '').replace(',', '.'));
       const nuevoDescuento = PorcentajeDescuento(valor, nuevoPrecioOferta);
