@@ -5,7 +5,7 @@ const productSchema = new mongoose.Schema({
   nombre: { type: String, required: true, unique: true },
   stock: { type: Number, required: true },
   valor: {
-    type: Number,
+    type: String,
     required: true,
     validate: {
       validator: function (v) {
@@ -17,8 +17,9 @@ const productSchema = new mongoose.Schema({
   categoria: { type: String, required: true },
   descripcion: { type: String },
   imagen: { type: String, required: true },
-  precio_oferta: { type: Number },
-  marca: { type: String }
+  precio_oferta: { type: String },
+  marca: { type: String },
+  descuento: { type: String }
 });
 
 // Agregar el plugin de autoincremento al esquema

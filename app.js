@@ -21,5 +21,4 @@ app.listen(port, () => {
 })
 
 initDB()
-
 module.exports = app;
