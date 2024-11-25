@@ -129,7 +129,7 @@ function formatearDinero(monto) {
 
 function PorcentajeDescuento(precio, oferta) {
   const discount = ((precio - oferta) / precio) * 100;
-  discountPercentage = `${discount.toFixed(0)}%`;
+  discountPercentage = `-${discount.toFixed(0)}%`;
   return discountPercentage;
 }
 
