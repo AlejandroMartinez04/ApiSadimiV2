@@ -91,14 +91,14 @@ router.put('/:id', async (req, res) => {
       req.body.valor = formatearDinero(nuevoValor);
       req.body.precio_oferta = formatearDinero(nuevoPrecioOferta);
 
-    } else if (req.body.valor == false && req.body.precio_oferta) {
+    } else if (req.body.valor && req.body.precio_oferta == false) {
       const nuevoPrecio = req.body.valor;
       const PrecioOferta = parseFloat(product.precio_oferta.replace(/\./g, '').replace(',', '.'));
       const nuevoDescuento = PorcentajeDescuento(nuevoPrecio, PrecioOferta);
       req.body.descuento = nuevoDescuento;
       req.body.valor = formatearDinero(nuevoPrecio);
 
-    } else if (req.body.valor && req.body.precio_oferta == false) {
+    } else if (req.body.valor == false && req.body.precio_oferta) {
       const nuevoPrecioOferta = req.body.precio_oferta;
       const valor = parseFloat(product.valor.replace(/\./g, '').replace(',', '.'));
       const nuevoDescuento = PorcentajeDescuento(valor, nuevoPrecioOferta);
